@@ -1,0 +1,15 @@
+﻿@model EmployeeManagement.Contracts.Employee
+
+@{
+    if (Model != null)
+        ViewBag.Title = "Details - " + Model.FirstName + " " + Model.LastName;
+    else
+        ViewBag.Title = "Details - New Employee";
+}
+
+<div>
+    <span>First Name: @Model.FirstName</span><br \>
+    <span>Last Name: @Model.LastName</span><br \>
+    <span>Email: @Model.EmailId</span><br \>
+    <span>Age: @Model.Age</span><br \>
+</div>

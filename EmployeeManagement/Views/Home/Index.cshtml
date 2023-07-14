@@ -1,0 +1,10 @@
+﻿@model List<EmployeeManagement.Contracts.Employee>;
+@{
+    ViewBag.Title = "Employees";
+}
+
+@foreach (var emp in Model)
+{
+    @Html.ActionLink(emp.FirstName + " " + emp.LastName, "Details", "Employee", emp.Id);
+    <br \>
+}
