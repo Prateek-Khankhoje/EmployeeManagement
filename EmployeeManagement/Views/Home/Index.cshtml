@@ -2,6 +2,12 @@
 @{
     ViewBag.Title = "Employees";
 }
+@using (Html.BeginForm("Index", "Home", FormMethod.Get))
+{
+    <b>Search Employees</b><br />
+    @Html.TextBox("Search") <input type="submit" value="Search"/>
+    
+}
 
 @foreach (var emp in Model)
 {

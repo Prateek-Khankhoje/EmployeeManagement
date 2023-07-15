@@ -6,5 +6,9 @@ namespace EmployeeManagement.DataAccessservice.Models
     {
         Employee GetEmployee(int id);
         List<Employee> GetAllEmployees();
+        List<Employee> SearchEmployees(string searchCriteria);
+        int SaveEmployee(Employee employee);
+        int UpdateEmployee(Employee employee);
+        bool DeleteEmployee(int id);
     }
 }

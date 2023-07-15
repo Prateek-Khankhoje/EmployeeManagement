@@ -20,5 +20,38 @@ namespace EmployeeManagement.DataAccessservice.Models
         {
             return _allEmployees;
         }
+
+        public int SaveEmployee(Employee employee)
+        {
+            employee.Id = _allEmployees.Max(x => x.Id) + 1;
+            _allEmployees.Add(employee);
+            return employee.Id;
+        }
+
+        public int UpdateEmployee(Employee employee)
+        {
+            _allEmployees[_allEmployees.FindIndex(x => x.Id == employee.Id)] = employee;
+            return employee.Id;
+        }
+
+        public bool DeleteEmployee(int id)
+        {
+            _allEmployees.Remove(_allEmployees.Find(x => x.Id == id));
+            return true;
+        }
+
+        public List<Employee> SearchEmployees(string? searchCriteria)
+        {
+            List<Employee> response;
+            if (String.IsNullOrEmpty(searchCriteria))
+            {
+                response = _allEmployees;
+            }
+            else
+            {
+            response = _allEmployees.Where(x => x.FirstName.Contains(searchCriteria) || x.LastName.Contains(searchCriteria)).ToList();                
+            }
+            return response;
+        }
     }
 }

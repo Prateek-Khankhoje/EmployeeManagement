@@ -29,5 +29,11 @@ namespace EmployeeManagement.DataAccessservice.Controllers
         {
             return _employeeRepository.GetAllEmployees();
         }
+
+        [HttpPost("SearchEmployees")]
+        public List<Employee> SearchEmployees(SearchEmployeeRQ request)
+        {
+            return _employeeRepository.SearchEmployees(request.SearchCriteria);
+        }
     }
 }
