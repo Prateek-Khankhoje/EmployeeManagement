@@ -21,7 +21,7 @@ namespace EmployeeManagement.DataAccessservice.Controllers
         [HttpPost("GetEmployee")]
         public Employee GetEmployee(GetEmployeeRQ request)
         {
-            return _employeeRepository.GetEmployee(request.Id);
+           return _employeeRepository.GetEmployee(request.Id);
         }
 
         [HttpGet("GetAllEmployees")]
@@ -34,6 +34,12 @@ namespace EmployeeManagement.DataAccessservice.Controllers
         public List<Employee> SearchEmployees(SearchEmployeeRQ request)
         {
             return _employeeRepository.SearchEmployees(request.SearchCriteria);
+        }
+
+        [HttpPost("DeleteEmployee")]
+        public BaseContractRS DeleteEmployee(DeleteEmployeeRQ request)
+        {
+            return new BaseContractRS() { Success = _employeeRepository.DeleteEmployee(request.Id) };
         }
     }
 }

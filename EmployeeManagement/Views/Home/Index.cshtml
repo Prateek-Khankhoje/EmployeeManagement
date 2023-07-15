@@ -16,5 +16,12 @@
                     controllerName: "Employee",
                     routeValues: new{ Id = emp.Id}, 
                     htmlAttributes: null);
+    <span>&emsp;</span>
+    @Html.ActionLink(linkText : "Delete",
+                    actionName: "Delete",
+                    controllerName: "Employee",
+                    routeValues: new{ Id = emp.Id},
+                    htmlAttributes: null)
+    ;
     <br \>
 }
