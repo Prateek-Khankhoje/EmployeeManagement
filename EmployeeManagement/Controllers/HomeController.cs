@@ -9,21 +9,19 @@ namespace EmployeeManagement.Controllers
 {
     public class HomeController : Controller
     {
-        
-        private readonly HttpClient _httpClient;
+        private readonly IStandardHttpClient _httpClient;
         private readonly IConfiguration _config;
 
         private string GetAllEmployeesMethod { get { return _config.GetValue<string>("EmployeeDataAccessService:GetAllEmployeesMethod"); } }
-        public HomeController(StandardHttpClientHelper httpClientHelper, IConfiguration config)
+        public HomeController(IStandardHttpClient standardHttpClient, IConfiguration config)
         {
-            _httpClient = httpClientHelper.httpClient;
+            _httpClient = standardHttpClient;
             _config = config;
         }
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var response = await _httpClient.GetAsync(GetAllEmployeesMethod);
-            string str = await response.Content.ReadAsStringAsync();
-            var model = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Employee>>(str);
+            var task = System.Threading.Tasks.Task.Run(async () => await _httpClient.HttpGetAsync<List<Employee>>(GetAllEmployeesMethod));
+            var model = task.Result;
             return View(model);
         }
 

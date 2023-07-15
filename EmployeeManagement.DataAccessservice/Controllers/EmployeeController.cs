@@ -19,9 +19,9 @@ namespace EmployeeManagement.DataAccessservice.Controllers
         }
 
         [HttpPost("GetEmployee")]
-        public Employee GetEmployee(int Id)
+        public Employee GetEmployee(GetEmployeeRQ request)
         {
-            return _employeeRepository.GetEmployee(Id);
+            return _employeeRepository.GetEmployee(request.Id);
         }
 
         [HttpGet("GetAllEmployees")]

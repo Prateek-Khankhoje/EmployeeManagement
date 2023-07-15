@@ -6,11 +6,14 @@ namespace EmployeeManagement.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly HttpClient _httpClient;
+        private readonly IStandardHttpClient _httpClient;
+        private readonly IConfiguration _config;
 
-        public EmployeeController(StandardHttpClientHelper standardHttpClientHelper)
+        private string GetEmployeeMethod { get { return _config.GetValue<string>("EmployeeDataAccessService:GetEmployeeMethod"); } }
+        public EmployeeController(IStandardHttpClient standardHttpClient, IConfiguration config)
         {
-            _httpClient = standardHttpClientHelper.httpClient;
+            _httpClient = standardHttpClient;
+            _config = config;
         }
         public IActionResult Index()
         {
@@ -19,14 +22,12 @@ namespace EmployeeManagement.Controllers
 
         public IActionResult Details(int id )
         {
-            var emp = new Employee()
+            var request = new GetEmployeeRQ()
             {
-                Id = 1,
-                FirstName = "Test",
-                LastName = "Test",
-                EmailId = "Test@Email.com",
-                Age = 10,
+                Id = id
             };
+            var task = System.Threading.Tasks.Task.Run(async () => await _httpClient.HttpPostAsync<Employee>(GetEmployeeMethod, request));
+            var emp = task.Result;
             return View(emp);
         }
     }
