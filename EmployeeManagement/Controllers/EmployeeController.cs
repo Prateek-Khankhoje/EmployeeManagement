@@ -10,7 +10,7 @@ namespace EmployeeManagement.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Details()
+        public IActionResult Details(int id )
         {
             var emp = new Employee()
             {

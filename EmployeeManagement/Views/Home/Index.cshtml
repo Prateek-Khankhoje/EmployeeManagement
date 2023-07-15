@@ -5,6 +5,10 @@
 
 @foreach (var emp in Model)
 {
-    @Html.ActionLink(emp.FirstName + " " + emp.LastName, "Details", "Employee", emp.Id);
+    @Html.ActionLink(linkText : emp.FirstName + " " + emp.LastName, 
+                    actionName: "Details", 
+                    controllerName: "Employee",
+                    routeValues: new{ Id = emp.Id}, 
+                    htmlAttributes: null);
     <br \>
 }
