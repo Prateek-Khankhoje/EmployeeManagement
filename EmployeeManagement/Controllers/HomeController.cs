@@ -1,15 +1,29 @@
 ﻿using EmployeeManagement.Contracts;
+using EmployeeManagement.Utilities;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace EmployeeManagement.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        
+        private readonly HttpClient _httpClient;
+        private readonly IConfiguration _config;
+
+        private string GetAllEmployeesMethod { get { return _config.GetValue<string>("EmployeeDataAccessService:GetAllEmployeesMethod"); } }
+        public HomeController(StandardHttpClientHelper httpClientHelper, IConfiguration config)
         {
-            var model = new List<Employee>();
-            model.Add(new Employee() { Id = 1 , FirstName ="Test", LastName="Test", EmailId="Test@Email.com", Age=10 });
-            model.Add(new Employee() { Id = 2, FirstName = "Test2", LastName = "Test2", EmailId = "Test2@Email.com", Age = 20 });
+            _httpClient = httpClientHelper.httpClient;
+            _config = config;
+        }
+        public async Task<IActionResult> Index()
+        {
+            var response = await _httpClient.GetAsync(GetAllEmployeesMethod);
+            string str = await response.Content.ReadAsStringAsync();
+            var model = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Employee>>(str);
             return View(model);
         }
 

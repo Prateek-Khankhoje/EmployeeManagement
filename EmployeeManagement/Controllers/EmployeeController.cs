@@ -1,10 +1,17 @@
 ﻿using EmployeeManagement.Contracts;
+using EmployeeManagement.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.Controllers
 {
     public class EmployeeController : Controller
     {
+        private readonly HttpClient _httpClient;
+
+        public EmployeeController(StandardHttpClientHelper standardHttpClientHelper)
+        {
+            _httpClient = standardHttpClientHelper.httpClient;
+        }
         public IActionResult Index()
         {
             return RedirectToAction("Index", "Home");
