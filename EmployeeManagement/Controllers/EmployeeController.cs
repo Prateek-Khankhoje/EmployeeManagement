@@ -29,8 +29,8 @@ namespace EmployeeManagement.Controllers
             {
                 Id = id
             };
-            var task = System.Threading.Tasks.Task.Run(async () => await _httpClient.HttpPostAsync<Employee>(GetEmployeeMethod, request));
-            var emp = task.Result;
+            var task = System.Threading.Tasks.Task.Run(async () => await _httpClient.HttpPostAsync<GetEmployeeRS>(GetEmployeeMethod, request));
+            var emp = task.Result.Employee;
             return View(emp);
         }
 

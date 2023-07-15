@@ -19,21 +19,24 @@ namespace EmployeeManagement.DataAccessservice.Controllers
         }
 
         [HttpPost("GetEmployee")]
-        public Employee GetEmployee(GetEmployeeRQ request)
+        public GetEmployeeRS GetEmployee(GetEmployeeRQ request)
         {
-           return _employeeRepository.GetEmployee(request.Id);
+            var emp = _employeeRepository.GetEmployee(request.Id);
+            return new GetEmployeeRS { Employee = emp };
         }
 
         [HttpGet("GetAllEmployees")]
-        public List<Employee> GetAllEmployees()
+        public GetEmployeesRS GetAllEmployees()
         {
-            return _employeeRepository.GetAllEmployees();
+            var response = _employeeRepository.GetAllEmployees();
+            return new GetEmployeesRS {  Employees = response };
         }
 
         [HttpPost("SearchEmployees")]
-        public List<Employee> SearchEmployees(SearchEmployeeRQ request)
+        public GetEmployeesRS SearchEmployees(SearchEmployeeRQ request)
         {
-            return _employeeRepository.SearchEmployees(request.SearchCriteria);
+            var employees = _employeeRepository.SearchEmployees(request.SearchCriteria);
+            return new GetEmployeesRS { Employees = employees };
         }
 
         [HttpPost("DeleteEmployee")]

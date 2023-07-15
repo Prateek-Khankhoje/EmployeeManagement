@@ -27,8 +27,8 @@ namespace EmployeeManagement.Controllers
             {
                 SearchCriteria = search
             };
-            var task = System.Threading.Tasks.Task.Run(async () => await _httpClient.HttpPostAsync<List<Employee>>(SearchEmployeesMethod, request));
-            var model = task.Result;
+            var task = System.Threading.Tasks.Task.Run(async () => await _httpClient.HttpPostAsync<GetEmployeesRS>(SearchEmployeesMethod, request));
+            var model = task.Result.Employees;
             return View(model);
         }
     }
