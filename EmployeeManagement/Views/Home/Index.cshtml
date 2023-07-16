@@ -1,37 +1,53 @@
-﻿@model List<EmployeeManagement.Contracts.Employee>;
+﻿@model List<Employee>;
 @{
     ViewBag.Title = "Employees";
 }
 @using (Html.BeginForm("Index", "Home", FormMethod.Get))
 {
-    <b>Search Employees</b><br />
-    @Html.TextBox("Search") <input type="submit" value="Search"/>
-    
-}
+    <b>Search Employees</b>
+    <br />
+    @Html.TextBox("Search")
+    <input type="submit" value="Search" />
 
-@foreach (var emp in Model)
-{
-    @Html.ActionLink(linkText : emp.FirstName + " " + emp.LastName, 
-                    actionName: "Details", 
-                    controllerName: "Employee",
-                    routeValues: new{ Id = emp.Id}, 
-                    htmlAttributes: null);
-    <span>&emsp;</span>
-    @Html.ActionLink(linkText : "Edit",
-                    actionName: "Edit",
-                    controllerName: "Employee",
-                    routeValues: new{ Id = emp.Id},
-                    htmlAttributes: null);
-    <span>&emsp;</span>
-    @Html.ActionLink(linkText : "Delete",
-                    actionName: "Delete",
-                    controllerName: "Employee",
-                    routeValues: new{ Id = emp.Id},
-                    htmlAttributes: null);
-    <br \>
 }
+<table>
+    <tr>
+        <th>Employee</th>
+        <th>Action</th>
+    </tr>
 
+    @foreach (var emp in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(linkText : emp.FirstName + " " + emp.LastName,
+                        actionName: "Details",
+                        controllerName: "Employee",
+                        routeValues: new{ Id = emp.Id},
+                        htmlAttributes: null)
+            </td>
+            
+            <td>
+                <span>&emsp;&emsp;</span>
+                @Html.ActionLink(linkText : "Edit",
+                        actionName: "Edit",
+                        controllerName: "Employee",
+                        routeValues: new{ Id = emp.Id},
+                        htmlAttributes: null)
+                
+                @Html.ActionLink(linkText : "Delete",
+                        controllerName: "Employee",
+                        actionName: "Delete",
+                        routeValues: new{ Id = emp.Id},
+                        htmlAttributes: null)
+            </td>
+
+        </tr>
+
+
+    }
+</table>
+<br \>
 @Html.ActionLink(linkText : "Create new employee",
-                    actionName: "Create",
-                    controllerName: "Employee"
-                    );
+        actionName: "Create",
+        controllerName: "Employee")
