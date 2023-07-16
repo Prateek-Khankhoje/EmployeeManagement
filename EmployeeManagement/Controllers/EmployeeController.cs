@@ -1,5 +1,6 @@
 ﻿using EmployeeManagement.Contracts;
 using EmployeeManagement.Utilities;
+using EmployeeManagement.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.Controllers
@@ -12,7 +13,9 @@ namespace EmployeeManagement.Controllers
         #region Configs
         private string DeleteEmployeeMethod { get { return _config.GetValue<string>("EmployeeDataAccessService:DeleteEmployeeMethod"); } }
         private string GetEmployeeMethod { get { return _config.GetValue<string>("EmployeeDataAccessService:GetEmployeeMethod"); } }
+        private string SaveEmployeeMethod { get { return _config.GetValue<string>("EmployeeDataAccessService:SaveEmployeeMethod"); } }
         #endregion
+
         public EmployeeController(IStandardHttpClient standardHttpClient, IConfiguration config)
         {
             _httpClient = standardHttpClient;
@@ -41,5 +44,32 @@ namespace EmployeeManagement.Controllers
             var emp = task.Result;
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult Create() {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(CreateEmployeeViewModel model)
+        {
+            var request = new SaveEmployeeRQ()
+            {
+                Employee = new Employee()
+                {
+                    Id = null,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Age = model.Age,
+                    EmailId = model.EmailId
+                }
+            };
+
+            var task = System.Threading.Tasks.Task.Run(async () => await _httpClient.HttpPostAsync<SaveEmployeeRS>(SaveEmployeeMethod, request));
+            var empId = task.Result.Id;
+            return RedirectToAction("Details", new { id = empId });
+        }
+
+        
     }
 }

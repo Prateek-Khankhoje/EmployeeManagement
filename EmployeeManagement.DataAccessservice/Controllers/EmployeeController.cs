@@ -44,5 +44,20 @@ namespace EmployeeManagement.DataAccessservice.Controllers
         {
             return new BaseContractRS() { Success = _employeeRepository.DeleteEmployee(request.Id) };
         }
+
+        [HttpPost("SaveEmployee")]
+        public SaveEmployeeRS SaveEmployee(SaveEmployeeRQ request)
+        {
+            int empId;
+            if(request.Employee.Id == null)
+            {
+                empId= _employeeRepository.SaveEmployee(request.Employee);
+            }
+            else
+            {
+                empId = _employeeRepository.UpdateEmployee(request.Employee);
+            }
+            return new SaveEmployeeRS() { Id = empId };
+        }
     }
 }

@@ -25,13 +25,14 @@ namespace EmployeeManagement.DataAccessservice.Models
         {
             employee.Id = _allEmployees.Max(x => x.Id) + 1;
             _allEmployees.Add(employee);
-            return employee.Id;
+
+            return (int)_allEmployees.Find( x => x.Id == employee.Id).Id;
         }
 
         public int UpdateEmployee(Employee employee)
         {
             _allEmployees[_allEmployees.FindIndex(x => x.Id == employee.Id)] = employee;
-            return employee.Id;
+            return (int)_allEmployees.Find(x => x.Id == employee.Id).Id;
         }
 
         public bool DeleteEmployee(int id)

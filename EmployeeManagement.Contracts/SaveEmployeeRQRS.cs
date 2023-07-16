@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagement.Contracts
 {
-    public class GetEmployeeRQ
+    public class SaveEmployeeRQ
+    {
+        public Employee Employee { get; set; }
+    }
+
+    public class SaveEmployeeRS
     {
         public int Id { get; set; }
     }
+
+
 }
