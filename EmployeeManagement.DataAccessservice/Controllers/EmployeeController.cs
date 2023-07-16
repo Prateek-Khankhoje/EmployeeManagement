@@ -1,9 +1,11 @@
 using EmployeeManagement.Contracts;
+using EmployeeManagement.DataAccessservice.Filters;
 using EmployeeManagement.DataAccessservice.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.DataAccessservice.Controllers
 {
+    [TypeFilter(typeof(DelayFilter))]
     [ApiController]
     [Route("[controller]")]
     public class EmployeeController : ControllerBase
