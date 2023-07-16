@@ -2,6 +2,7 @@
 using EmployeeManagement.Utilities;
 using EmployeeManagement.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace EmployeeManagement.Controllers
 {
@@ -70,6 +71,44 @@ namespace EmployeeManagement.Controllers
             return RedirectToAction("Details", new { id = empId });
         }
 
-        
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var request = new GetEmployeeRQ()
+            {
+                Id = id
+            };
+            var task = System.Threading.Tasks.Task.Run(async () => await _httpClient.HttpPostAsync<GetEmployeeRS>(GetEmployeeMethod, request));
+            var emp = task.Result.Employee;
+            var model = new EditEmployeeViewModel()
+            {
+                Id = (int)emp.Id,
+                FirstName = emp.FirstName,
+                LastName = emp.LastName,
+                Age = emp.Age,
+                EmailId = emp.EmailId
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EditEmployeeViewModel model)
+        {
+            var request = new SaveEmployeeRQ()
+            {
+                Employee = new Employee()
+                {
+                    Id = model.Id,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Age = model.Age,
+                    EmailId = model.EmailId
+                }
+            };
+
+            var task = System.Threading.Tasks.Task.Run(async () => await _httpClient.HttpPostAsync<SaveEmployeeRS>(SaveEmployeeMethod, request));
+            var empId = task.Result.Id;
+            return RedirectToAction("Details", new { id = empId }); ;
+        }
     }
 }
