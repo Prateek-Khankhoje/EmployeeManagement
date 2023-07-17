@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EmployeeManagement.Contracts;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EmployeeManagement.DataAccessservice.Models
 {
@@ -38,10 +39,20 @@ namespace EmployeeManagement.DataAccessservice.Models
 
         public int SaveEmployee(Employee employee)
         {
-            var emp = _mapper.Map<EmployeeModel>(employee);
-            _context.Employees.Add(emp);
-            _context.SaveChanges();
-            return emp.Id;
+            int empId;
+            var existingEmp = _context.Employees.Where(x => x.FirstName.Equals(employee.FirstName) && x.LastName.Equals(employee.LastName) && x.EmailId.Equals(employee.EmailId)).ToList();
+            if ( existingEmp.Count == 0)
+            {
+                var emp = _mapper.Map<EmployeeModel>(employee);
+                _context.Employees.Add(emp);
+                _context.SaveChanges();
+                empId = emp.Id;
+            }
+            else
+            {
+                throw new Exception("Employee already exists with the same details");
+            }
+            return empId;
         }
 
         public List<Employee> SearchEmployees(string searchCriteria)
@@ -60,10 +71,20 @@ namespace EmployeeManagement.DataAccessservice.Models
 
         public int UpdateEmployee(Employee employee)
         {
-            var emp = _context.Employees.Attach(_mapper.Map<EmployeeModel>(employee));
-            emp.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
-            return (int)employee.Id;
+            int empId;
+            var existingEmp = _context.Employees.Where(x => x.FirstName.Equals(employee.FirstName) && x.LastName.Equals(employee.LastName) && x.EmailId.Equals(employee.EmailId) && !x.Id.Equals(employee.Id)).ToList();
+            if (existingEmp.Count == 0)
+            {
+                var emp = _context.Employees.Attach(_mapper.Map<EmployeeModel>(employee));
+                emp.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.SaveChanges();
+                empId = (int)employee.Id;
+            }
+            else
+            {
+                throw new Exception("Employee already exists with the same details");
+            }
+            return empId;
 
         }
     }

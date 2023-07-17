@@ -39,12 +39,7 @@ namespace EmployeeManagement.DataAccessService.UnitTest
         public void Test_SaveEmployee()
         {
             var employee = new Employee()
-            {
-                FirstName = "Test",
-                LastName = "User",
-                EmailId = "TestUser@Email.com",
-                Age = 10,
-            };
+            { FirstName = "Tom", LastName = "Hanks", EmailId = "TomHanks@gmail.com", Age = 50 };
 
             var response = _employeeRepository.SaveEmployee(employee);
 

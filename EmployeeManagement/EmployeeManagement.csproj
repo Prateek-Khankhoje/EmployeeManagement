@@ -15,8 +15,4 @@
     <ProjectReference Include="..\EmployeeManagement.Contracts\EmployeeManagement.Contracts.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
 </Project>

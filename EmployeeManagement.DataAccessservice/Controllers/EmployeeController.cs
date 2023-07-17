@@ -50,16 +50,31 @@ namespace EmployeeManagement.DataAccessservice.Controllers
         [HttpPost("SaveEmployee")]
         public SaveEmployeeRS SaveEmployee(SaveEmployeeRQ request)
         {
-            int empId;
-            if(request.Employee.Id == null)
+            var response = new SaveEmployeeRS();
+            try
             {
-                empId= _employeeRepository.SaveEmployee(request.Employee);
+                if (request.Employee.Id == null)
+                {
+                    response.Id = _employeeRepository.SaveEmployee(request.Employee);
+                }
+                else
+                {
+                    response.Id = _employeeRepository.UpdateEmployee(request.Employee);
+                }
             }
-            else
+            catch(Exception ex)
             {
-                empId = _employeeRepository.UpdateEmployee(request.Employee);
+                ErrorHandler(response, ex);
             }
-            return new SaveEmployeeRS() { Id = empId };
+            return response;
         }
+
+        #region Private Worker Methods
+        private void ErrorHandler(BaseContractRS response, Exception ex)
+        {
+            response.Success = false;
+            response.Error = ex.Message;
+        }
+        #endregion
     }
 }

@@ -11,7 +11,7 @@ namespace EmployeeManagement.Contracts
         public Employee Employee { get; set; }
     }
 
-    public class SaveEmployeeRS
+    public class SaveEmployeeRS :BaseContractRS
     {
         public int Id { get; set; }
     }

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMvc();
 builder.Services.AddHttpClient();
-builder.Services.AddSingleton<IStandardHttpClient, StandardHttpClient>();
+builder.Services.AddScoped<IStandardHttpClient, StandardHttpClient>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

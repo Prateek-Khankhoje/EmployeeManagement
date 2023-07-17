@@ -29,6 +29,10 @@ namespace EmployeeManagement.Controllers
 
         public IActionResult Details(int id )
         {
+            if(id == 0)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var request = new GetEmployeeRQ()
             {
                 Id = id
@@ -69,7 +73,15 @@ namespace EmployeeManagement.Controllers
                 };
 
                 var task = System.Threading.Tasks.Task.Run(async () => await _httpClient.HttpPostAsync<SaveEmployeeRS>(SaveEmployeeMethod, request));
-                var empId = task.Result.Id;
+                var apiResponse = task.Result;
+                if (!string.IsNullOrEmpty(apiResponse.Error))
+                {
+                    ModelState.AddModelError("FirstName", apiResponse.Error);
+                    ModelState.AddModelError("LastName", apiResponse.Error);
+                    ModelState.AddModelError("EmailId", apiResponse.Error);
+                    return View(model);
+                }
+                var empId = apiResponse.Id;
                 return RedirectToAction("Details", new { id = empId });
             }
             else
@@ -116,7 +128,15 @@ namespace EmployeeManagement.Controllers
                 };
 
                 var task = System.Threading.Tasks.Task.Run(async () => await _httpClient.HttpPostAsync<SaveEmployeeRS>(SaveEmployeeMethod, request));
-                var empId = task.Result.Id;
+                var apiResponse = task.Result;
+                if (!string.IsNullOrEmpty(apiResponse.Error))
+                {
+                    ModelState.AddModelError("FirstName", apiResponse.Error);
+                    ModelState.AddModelError("LastName", apiResponse.Error);
+                    ModelState.AddModelError("EmailId", apiResponse.Error);
+                    return View(model);
+                }
+                var empId = apiResponse.Id;
                 return RedirectToAction("Details", new { id = empId });
             }
             else
