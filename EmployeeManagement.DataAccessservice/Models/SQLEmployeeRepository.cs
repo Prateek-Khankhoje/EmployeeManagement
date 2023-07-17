@@ -53,7 +53,7 @@ namespace EmployeeManagement.DataAccessservice.Models
             }
             else
             {
-                result = _context.Employees.Where(x => x.FirstName.Contains(searchCriteria) || x.LastName.Contains(searchCriteria) || x.EmailId.Contains(searchCriteria)).ToList();
+                result = _context.Employees.Where(x => x.FirstName.Contains(searchCriteria) || x.LastName.Contains(searchCriteria)).ToList();
             }
             return _mapper.Map<List<Employee>>(result);
         }
