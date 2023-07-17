@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Employees";
 }
-@using (Html.BeginForm("Index", "Home", FormMethod.Get))
+@using (Html.BeginForm("Index", "Home", FormMethod.Post))
 {
     <h3>Search Employees</h3>
     @Html.TextBox("Search","", new { placeholder = "Search Criteria" })
@@ -10,51 +10,52 @@
 
 }
 
-
-@if (Model.Count > 0)
+@if (Model != null)
 {
-    <table>
-        <tr>
-            <th>Employee</th>
-            <th>Action</th>
-        </tr>
-        @foreach (var emp in Model)
-        {
+    @if (Model.Count > 0)
+    {
+        <table>
             <tr>
-                <td>
-                    @(
-                        emp.FirstName + " " + emp.LastName
-                        )
-                </td>
+                <th>Employee</th>
+                <th>Action</th>
+            </tr>
+            @foreach (var emp in Model)
+            {
+                <tr>
+                    <td>
+                        @(
+                    emp.FirstName + " " + emp.LastName
+                                        )
+                    </td>
 
-                <td>
-                    <span>&emsp;&emsp;</span>
-                    @Html.ActionLink("View",
+                    <td>
+                        <span>&emsp;&emsp;</span>
+                        @Html.ActionLink("View",
             actionName: "Details",
             controllerName: "Employee",
             routeValues: new{ Id = emp.Id},
             htmlAttributes: null) |
-                    @Html.ActionLink(linkText : "Edit",
+                        @Html.ActionLink(linkText : "Edit",
             actionName: "Edit",
             controllerName: "Employee",
             routeValues: new{ Id = emp.Id},
             htmlAttributes: null) |
 
-                    @Html.ActionLink(linkText : "Delete",
+                        @Html.ActionLink(linkText : "Delete",
             controllerName: "Employee",
             actionName: "Delete",
             routeValues: new{ Id = emp.Id},
             htmlAttributes: null)
-                </td>
+                    </td>
 
-            </tr>
-        }
-    </table>
-
-}
-else
-{
-    <span>No employees found matching search criteria.</span><br/>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <span>No employees found matching search criteria.</span><br/>
+    }
 }
 
 <br \>

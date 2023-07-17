@@ -21,7 +21,8 @@ namespace EmployeeManagement.Controllers
             _httpClient = standardHttpClient;
             _config = config;
         }
-        
+
+        [HttpPost]
         public IActionResult Index(string search) {
             var request = new SearchEmployeeRQ()
             {
@@ -31,5 +32,7 @@ namespace EmployeeManagement.Controllers
             var model = task.Result.Employees;
             return View(model);
         }
+        [HttpGet]
+        public IActionResult Index() { return View(); }
     }
 }
