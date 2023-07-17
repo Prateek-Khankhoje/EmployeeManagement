@@ -10,6 +10,7 @@ namespace EmployeeManagement.Contracts
         [Required]
         public string LastName { get; set; }
         [Required]
+        [RegularExpression(@"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]
         public string EmailId { get; set; }
         [Required]
         [Range(1, 100)]

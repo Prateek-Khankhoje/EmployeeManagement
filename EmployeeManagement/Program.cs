@@ -11,6 +11,9 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
+}else
+{
+    app.UseExceptionHandler("/error");
 }
 app.UseRouting();
 app.UseHttpsRedirection();
