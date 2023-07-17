@@ -54,21 +54,28 @@ namespace EmployeeManagement.Controllers
         [HttpPost]
         public IActionResult Create(CreateEmployeeViewModel model)
         {
-            var request = new SaveEmployeeRQ()
+            if (ModelState.IsValid)
             {
-                Employee = new Employee()
+                var request = new SaveEmployeeRQ()
                 {
-                    Id = null,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    Age = model.Age,
-                    EmailId = model.EmailId
-                }
-            };
+                    Employee = new Employee()
+                    {
+                        Id = null,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Age = model.Age,
+                        EmailId = model.EmailId
+                    }
+                };
 
-            var task = System.Threading.Tasks.Task.Run(async () => await _httpClient.HttpPostAsync<SaveEmployeeRS>(SaveEmployeeMethod, request));
-            var empId = task.Result.Id;
-            return RedirectToAction("Details", new { id = empId });
+                var task = System.Threading.Tasks.Task.Run(async () => await _httpClient.HttpPostAsync<SaveEmployeeRS>(SaveEmployeeMethod, request));
+                var empId = task.Result.Id;
+                return RedirectToAction("Details", new { id = empId });
+            }
+            else
+            {
+                return View(model);
+            }
         }
 
         [HttpGet]
@@ -94,21 +101,28 @@ namespace EmployeeManagement.Controllers
         [HttpPost]
         public IActionResult Edit(EditEmployeeViewModel model)
         {
-            var request = new SaveEmployeeRQ()
+            if (ModelState.IsValid)
             {
-                Employee = new Employee()
+                var request = new SaveEmployeeRQ()
                 {
-                    Id = model.Id,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    Age = model.Age,
-                    EmailId = model.EmailId
-                }
-            };
+                    Employee = new Employee()
+                    {
+                        Id = model.Id,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Age = model.Age,
+                        EmailId = model.EmailId
+                    }
+                };
 
-            var task = System.Threading.Tasks.Task.Run(async () => await _httpClient.HttpPostAsync<SaveEmployeeRS>(SaveEmployeeMethod, request));
-            var empId = task.Result.Id;
-            return RedirectToAction("Details", new { id = empId }); ;
+                var task = System.Threading.Tasks.Task.Run(async () => await _httpClient.HttpPostAsync<SaveEmployeeRS>(SaveEmployeeMethod, request));
+                var empId = task.Result.Id;
+                return RedirectToAction("Details", new { id = empId });
+            }
+            else
+            {
+                return View(model);
+            }
         }
     }
 }
